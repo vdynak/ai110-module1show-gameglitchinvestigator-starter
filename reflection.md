@@ -42,15 +42,13 @@ Copilot helped me understand the bug by suggesting the exact emoji/message swap,
 
 ## 4. What did you learn about Streamlit and state?
 
-- In your own words, explain why the secret number kept changing in the original app.
-- How would you explain Streamlit "reruns" and session state to a friend who has never used Streamlit?
-- What change did you make that finally gave the game a stable secret number?
+The secret number was resetting because Streamlit reruns the entire script from top to bottom every time you interact with the app — click a button, type in a text box, whatever. So if you had `secret = random.randint(1, 100)` just sitting there without any protection, it'd run that line again and generate a new number each time. It's honestly kind of wild when you first realize it. Streamlit's `session_state` is basically like "hey, let me store some stuff that persists across these reruns so your variables don't get wiped out." It's like the difference between writing on a whiteboard that gets erased every second versus writing in a notebook — session_state is the notebook. The original code wasn't using it, so the secret kept changing. The code already had `if "secret" not in st.session_state:` set up to initialize it once, but something else was probably overwriting it or the logic was just broken. Once that check was properly in place, the secret stayed put between reruns and the game actually became playable.
 
 ---
 
 ## 5. Looking ahead: your developer habits
 
-- What is one habit or strategy from this project that you want to reuse in future labs or projects?
-  - This could be a testing habit, a prompting strategy, or a way you used Git.
-- What is one thing you would do differently next time you work with AI on a coding task?
-- In one or two sentences, describe how this project changed the way you think about AI generated code.
+I'm definitely keeping the habit of actually running my tests and playing with the code, not just writing it and calling it done. When Copilot was being helpful, it was usually because I questioned what it suggested and verified it works. That's the move. Next time I work with AI on code, I'm gonna be way more skeptical upfront — like, assume the code needs checking until proven otherwise. Write tests first, run them, see what fails. Some of the best debugging happened when I just read through the logic and thought "wait, that doesn't make sense" instead of trusting the emoji choices. 
+
+This project made me realize AI-generated code is more like a rough draft than a finished piece. It's got decent ideas sometimes, but it's gonna miss stuff and occasionally go in weird directions. The real value is using it to speed up the boring parts and then actually doing the thinking yourself.
+

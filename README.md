@@ -25,9 +25,14 @@ It wrote the code, ran away, and now the game is unplayable.
 
 ## 📝 Document Your Experience
 
-- [ ] Describe the game's purpose.
-- [ ] Detail which bugs you found.
-- [ ] Explain what fixes you applied.
+### What's the game about?
+It's a number guessing game built with Streamlit where you try to guess a randomly-generated secret number within a difficulty range. You get hints and a score, and the game's supposed to tell you whether to guess higher or lower. Pretty straightforward, but the AI that built it... yeah, didn't really nail it.
+
+### Bugs we found
+The AI left us with a couple of rough ones. First, the directional hints were completely backwards — if your guess was too high, it'd tell you to go higher instead of lower. Super confusing when you're trying to actually win. Second, the game was letting people spam guesses outside the valid range without penalty, which felt like cheating. And the test cases weren't even checking the full return values, so we wouldn't have caught these problems if we hadn't actually run them.
+
+### What we fixed
+We moved the `check_guess()` function out of the main app file and into `logic_utils.py` where it belongs, then swapped the emoji and messages so the hints actually make sense now. Added proper range validation too — now if you try to guess outside the difficulty range, it tells you no and doesn't waste one of your attempts. Fixed the tests to actually unpack and verify both the outcome and the message, then wrote a specific test case to make sure the high/low bug doesn't come back. All tests pass now, so we're good.
 
 ## 📸 Demo
 
