@@ -36,7 +36,7 @@ We moved the `check_guess()` function out of the main app file and into `logic_u
 
 ## 📸 Demo
 
-- [ ] [Insert a screenshot of your fixed, winning game here]
+<img width="1171" height="647" alt="Screenshot 2026-03-02 at 11 55 19 AM" src="https://github.com/user-attachments/assets/c37cc784-0da0-4fc6-9e88-b01e8b10d0dd" />
 
 ## 🚀 Stretch Features
 
