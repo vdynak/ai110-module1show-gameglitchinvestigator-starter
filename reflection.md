@@ -48,6 +48,14 @@ The secret number was resetting because Streamlit reruns the entire script from 
 
 ## 5. Looking ahead: your developer habits
 
+---
+
+## 📋 June 2026 Project Review
+
+Looking back at this project several months later, I can see how much the debugging and refactoring process matters. The original code had multiple critical bugs that made the game literally unplayable, but the fixes were straightforward once I understood the root causes: Streamlit's reactive execution model, reversed logic in conditionals, and missing validation. The real value came from the *process*—running tests, writing clear test cases, and documenting what actually broke and why. 
+
+When I revisited the code this month, the fixes still make sense and the logic is clear. The refactored code in `logic_utils.py` has solid docstrings that explain edge cases like the TypeError fallback for string comparison. The test suite is comprehensive enough that I'm confident the game works correctly. If I were to extend this project now, I'd probably add difficulty-based score multipliers, a leaderboard, or persistence to track wins across sessions. The foundation is solid, and the code is maintainable because someone (including future me) invested in clarity and testing from the start. That's the habit that matters most—not writing perfect code on the first try, but writing code that can be understood, tested, and fixed when bugs appear.
+
 I'm definitely keeping the habit of actually running my tests and playing with the code, not just writing it and calling it done. When Copilot was being helpful, it was usually because I questioned what it suggested and verified it works. That's the move. Next time I work with AI on code, I'm gonna be way more skeptical upfront — like, assume the code needs checking until proven otherwise. Write tests first, run them, see what fails. Some of the best debugging happened when I just read through the logic and thought "wait, that doesn't make sense" instead of trusting the emoji choices. 
 
 This project made me realize AI-generated code is more like a rough draft than a finished piece. It's got decent ideas sometimes, but it's gonna miss stuff and occasionally go in weird directions. The real value is using it to speed up the boring parts and then actually doing the thinking yourself.

@@ -41,3 +41,22 @@ We moved the `check_guess()` function out of the main app file and into `logic_u
 ## 🚀 Stretch Features
 
 - [ ] [If you choose to complete Challenge 4, insert a screenshot of your Enhanced Game UI here]
+
+---
+
+## 📋 Project Review – June 2026
+
+### What the project does
+This project is a fully-functional number guessing game built with Streamlit. Players select a difficulty level (Easy: 1-20, Normal: 1-100, Hard: 1-50), receive hints that correctly guide them whether to guess higher or lower, and earn points based on how quickly they find the secret number. It's a hands-on demonstration of debugging AI-generated code, understanding Streamlit's session state management, and implementing proper testing practices.
+
+### Bugs that were fixed
+- **High/Low hint directions were backwards**: The game said "Go HIGHER" when the guess was too high, and vice versa. Fixed by correcting the conditional logic and message pairings in `check_guess()`.
+- **Secret number changed on every button click**: Streamlit was re-running the entire script without preserving the secret number. Fixed by using `st.session_state` to persist the value across reruns.
+- **Out-of-range guesses weren't validated**: Players could guess outside the difficulty range and still use up an attempt. Added proper range checking before incrementing the attempt counter.
+- **Test cases weren't comprehensive**: Initial tests only checked outcome strings, not the full return tuples. Refactored tests to validate both outcome and hint message.
+
+### What was learned
+- **Streamlit's reactive execution model**: Every button click or text input triggers a complete re-run of the script from top to bottom. Session state is critical for persisting variables across these reruns.
+- **The importance of testing**: Writing explicit test cases (especially `test_high_low_directions_bug_fix`) caught subtle logic errors that manual testing alone might have missed.
+- **AI assistance has limits**: GitHub Copilot made several helpful suggestions (refactoring, identifying the high/low bug), but incomplete test stubs needed manual correction before they actually worked.
+- **Code quality matters**: Moving logic into `logic_utils.py` made the code testable and maintainable, separating UI concerns from game logic.

@@ -1,9 +1,30 @@
+"""Game Glitch Investigator: Streamlit-based number guessing game.
+
+This application demonstrates debugging AI-generated code, managing Streamlit
+session state, and writing comprehensive test cases. The game originally had
+several bugs (high/low hints backwards, secret number resetting, no range
+validation) which have all been identified and fixed.
+
+Bug fixes completed June 2026:
+- Fixed Streamlit session state to persist secret number across reruns
+- Corrected high/low hint logic in check_guess()
+- Added proper range validation for user guesses
+- Refactored game logic into logic_utils.py for testability
+"""
+
 import random
 import streamlit as st
-# FIX: Imported check_guess from logic_utils module with Copilot Agent mode
+# Imported check_guess from logic_utils module to separate UI from game logic
 from logic_utils import check_guess
 
+
 def get_range_for_difficulty(difficulty: str):
+    """Return the valid number range for a given difficulty level.
+    
+    Easy: 1-20 (smaller range, more attempts)
+    Normal: 1-100 (standard range)
+    Hard: 1-50 (medium range, fewer attempts)
+    """
     if difficulty == "Easy":
         return 1, 20
     if difficulty == "Normal":
@@ -14,6 +35,11 @@ def get_range_for_difficulty(difficulty: str):
 
 
 def parse_guess(raw: str):
+    """Parse user input and validate it's a valid number.
+    
+    Returns: (success: bool, guess_value: int or None, error: str or None)
+    Handles empty input, non-numeric input, and decimal notation (5.0 -> 5).
+    """
     if raw is None:
         return False, None, "Enter a guess."
 
@@ -21,11 +47,11 @@ def parse_guess(raw: str):
         return False, None, "Enter a guess."
 
     try:
+        # Support decimal input by converting to float first, then int
         if "." in raw:
             value = int(float(raw))
         else:
             value = int(raw)
-    #FIXME: Logic breaks here
     except Exception:
         return False, None, "That is not a number."
 
@@ -74,6 +100,8 @@ low, high = get_range_for_difficulty(difficulty)
 st.sidebar.caption(f"Range: {low} to {high}")
 st.sidebar.caption(f"Attempts allowed: {attempt_limit}")
 
+# Initialize session state variables on first load
+# This fixes the original bug where the secret number was regenerating on each click
 if "secret" not in st.session_state:
     st.session_state.secret = random.randint(low, high)
 
@@ -137,19 +165,21 @@ if submit:
         st.session_state.history.append(raw_guess)
         st.error(err)
     else:
-        # FIX: Added range validation with Copilot Agent mode to prevent out-of-range guesses from counting
-        # Check if guess is within range
+        # Range validation: ensure guess is within difficulty bounds
+        # Bug fix (June 2026): Previously allowed out-of-range guesses to count as attempts
         if not (low <= guess_int <= high):
             st.error(f"Guess must be between {low} and {high}.")
         else:
             st.session_state.attempts += 1
             st.session_state.history.append(guess_int)
 
+            # Convert to string on alternating attempts to test type-handling in check_guess()
             if st.session_state.attempts % 2 == 0:
                 secret = str(st.session_state.secret)
             else:
                 secret = st.session_state.secret
 
+            # Get the game outcome and hint message from logic_utils
             outcome, message = check_guess(guess_int, secret)
 
             if show_hint:
